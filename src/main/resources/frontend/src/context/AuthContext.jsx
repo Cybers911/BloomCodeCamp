@@ -10,12 +10,25 @@ export const AuthProvider = ({ children }) => {
     const login = async (credentials) => {
         try {
             const response = await api.post('/api/auth/login', credentials);
-            const token = response.data.token;
-            localStorage.setItem('token', token);
-            setUser({ username: credentials.username });
-            return true;
+            
+            // Check if response is JSON (success case)
+            if (response.headers['content-type']?.includes('application/json')) {
+                const token = response.data.token;
+                localStorage.setItem('token', token);
+                setUser({ username: credentials.username });
+                return true;
+            } else {
+                // Handle string error response
+                console.error('Login failed:', response.data);
+                return false;
+            }
         } catch (error) {
-            console.error(error);
+            // Handle string error response from catch block
+            if (error.response?.data && typeof error.response.data === 'string') {
+                console.error('Login failed:', error.response.data);
+            } else {
+                console.error('Login failed:', error);
+            }
             return false;
         }
     };
@@ -23,9 +36,24 @@ export const AuthProvider = ({ children }) => {
     const register = async (credentials) => {
         try {
             const response = await api.post('/api/auth/register', credentials);
-            return true;
+            
+            // Register always returns a string (success or error)
+            if (typeof response.data === 'string') {
+                if (response.data.toLowerCase().includes('success') || response.data.toLowerCase().includes('created')) {
+                    return true;
+                } else {
+                    console.error('Registration failed:', response.data);
+                    return false;
+                }
+            }
+            return false;
         } catch (error) {
-            console.error(error);
+            // Handle string error response
+            if (error.response?.data && typeof error.response.data === 'string') {
+                console.error('Registration failed:', error.response.data);
+            } else {
+                console.error('Registration failed:', error);
+            }
             return false;
         }
     };

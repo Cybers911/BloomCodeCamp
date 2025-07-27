@@ -6,18 +6,27 @@ const Register = () => {
     const { register } = useAuth();
     const [credentials, setCredentials] = useState({ username: '', password: '' });
     const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState('');
+    const [success, setSuccess] = useState('');
 
     const handleRegister = async (e) => {
         e.preventDefault();
         setIsLoading(true);
+        setError('');
+        setSuccess('');
         try {
             const success = await register(credentials);
             if (success) {
-                // Redirect to login page after successful registration
-                window.location.href = '/login';
+                setSuccess('Account created successfully! Redirecting to login...');
+                setTimeout(() => {
+                    window.location.href = '/login';
+                }, 2000);
+            } else {
+                setError('Registration failed. Please try again.');
             }
         } catch (error) {
             console.error('Registration failed:', error);
+            setError('Registration failed. Please try again.');
         } finally {
             setIsLoading(false);
         }
@@ -33,6 +42,18 @@ const Register = () => {
                                 <h2 className="text-primary fw-bold mb-2">Create Account</h2>
                                 <p className="text-muted">Sign up for a new account</p>
                             </div>
+                            
+                            {error && (
+                                <div className="alert alert-danger" role="alert">
+                                    {error}
+                                </div>
+                            )}
+                            
+                            {success && (
+                                <div className="alert alert-success" role="alert">
+                                    {success}
+                                </div>
+                            )}
                             
                             <form onSubmit={handleRegister}>
                                 <div className="mb-3">

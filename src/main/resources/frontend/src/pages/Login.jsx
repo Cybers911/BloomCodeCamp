@@ -6,15 +6,22 @@ const Login = () => {
     const { login } = useAuth();
     const [credentials, setCredentials] = useState({ username: '', password: '' });
     const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState('');
 
     const handleLogin = async (e) => {
         e.preventDefault();
         setIsLoading(true);
+        setError('');
         try {
             const success = await login(credentials);
-            if (success) window.location.href = '/learner-dashboard';
+            if (success) {
+                window.location.href = '/learner-dashboard';
+            } else {
+                setError('Login failed. Please check your credentials.');
+            }
         } catch (error) {
             console.error('Login failed:', error);
+            setError('Login failed. Please try again.');
         } finally {
             setIsLoading(false);
         }
@@ -30,6 +37,12 @@ const Login = () => {
                                 <h2 className="text-primary fw-bold mb-2">Welcome Back</h2>
                                 <p className="text-muted">Sign in to your account</p>
                             </div>
+                            
+                            {error && (
+                                <div className="alert alert-danger" role="alert">
+                                    {error}
+                                </div>
+                            )}
                             
                             <form onSubmit={handleLogin}>
                                 <div className="mb-3">
