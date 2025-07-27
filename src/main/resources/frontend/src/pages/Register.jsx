@@ -15,14 +15,14 @@ const Register = () => {
         setError('');
         setSuccess('');
         try {
-            const success = await register(credentials);
-            if (success) {
+            const result = await register(credentials);
+            if (result.success) {
                 setSuccess('Account created successfully! Redirecting to login...');
                 setTimeout(() => {
                     window.location.href = '/login';
                 }, 2000);
             } else {
-                setError('Registration failed. Please try again.');
+                setError(result.error || 'Registration failed. Please try again.');
             }
         } catch (error) {
             console.error('Registration failed:', error);

@@ -13,11 +13,11 @@ const Login = () => {
         setIsLoading(true);
         setError('');
         try {
-            const success = await login(credentials);
-            if (success) {
+            const result = await login(credentials);
+            if (result.success) {
                 window.location.href = '/learner-dashboard';
             } else {
-                setError('Login failed. Please check your credentials.');
+                setError(result.error || 'Login failed. Please check your credentials.');
             }
         } catch (error) {
             console.error('Login failed:', error);

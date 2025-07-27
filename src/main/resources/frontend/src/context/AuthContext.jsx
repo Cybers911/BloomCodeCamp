@@ -16,20 +16,21 @@ export const AuthProvider = ({ children }) => {
                 const token = response.data.token;
                 localStorage.setItem('token', token);
                 setUser({ username: credentials.username });
-                return true;
+                return { success: true };
             } else {
                 // Handle string error response
                 console.error('Login failed:', response.data);
-                return false;
+                return { success: false, error: response.data };
             }
         } catch (error) {
             // Handle string error response from catch block
             if (error.response?.data && typeof error.response.data === 'string') {
                 console.error('Login failed:', error.response.data);
+                return { success: false, error: error.response.data };
             } else {
                 console.error('Login failed:', error);
+                return { success: false, error: 'Network error. Please try again.' };
             }
-            return false;
         }
     };
 
@@ -40,21 +41,22 @@ export const AuthProvider = ({ children }) => {
             // Register always returns a string (success or error)
             if (typeof response.data === 'string') {
                 if (response.data.toLowerCase().includes('success') || response.data.toLowerCase().includes('created')) {
-                    return true;
+                    return { success: true };
                 } else {
                     console.error('Registration failed:', response.data);
-                    return false;
+                    return { success: false, error: response.data };
                 }
             }
-            return false;
+            return { success: false, error: 'Invalid response from server.' };
         } catch (error) {
             // Handle string error response
             if (error.response?.data && typeof error.response.data === 'string') {
                 console.error('Registration failed:', error.response.data);
+                return { success: false, error: error.response.data };
             } else {
                 console.error('Registration failed:', error);
+                return { success: false, error: 'Network error. Please try again.' };
             }
-            return false;
         }
     };
 
