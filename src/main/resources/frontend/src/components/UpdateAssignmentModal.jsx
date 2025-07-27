@@ -6,7 +6,7 @@ const UpdateAssignmentModal = ({ isOpen, onClose, onSuccess, assignmentId }) => 
     const [formData, setFormData] = useState({
         number: '',
         branch: '',
-        github_url: ''
+        githubUrl: ''
     });
     const [isLoading, setIsLoading] = useState(false);
     const [isFetching, setIsFetching] = useState(false);
@@ -27,7 +27,7 @@ const UpdateAssignmentModal = ({ isOpen, onClose, onSuccess, assignmentId }) => 
             setFormData({
                 number: assignment.number || '',
                 branch: assignment.branch || '',
-                github_url: assignment.github_url || ''
+                githubUrl: assignment.githubUrl || ''
             });
         } catch (error) {
             console.error('Error fetching assignment:', error);
@@ -69,7 +69,7 @@ const UpdateAssignmentModal = ({ isOpen, onClose, onSuccess, assignmentId }) => 
     };
 
     const handleClose = () => {
-        setFormData({ number: '', branch: '', github_url: '' });
+        setFormData({ number: '', branch: '', githubUrl: '' });
         setError('');
         setIsLoading(false);
         setIsFetching(false);
@@ -130,15 +130,15 @@ const UpdateAssignmentModal = ({ isOpen, onClose, onSuccess, assignmentId }) => 
                                     </div>
                                     
                                     <div className="mb-3">
-                                        <label htmlFor="github_url" className="form-label fw-semibold">
+                                        <label htmlFor="githubUrl" className="form-label fw-semibold">
                                             GitHub Repository URL <span className="text-danger">*</span>
                                         </label>
                                         <input
                                             type="url"
                                             className="form-control form-control-lg"
-                                            id="github_url"
-                                            name="github_url"
-                                            value={formData.github_url}
+                                            id="githubUrl"
+                                            name="githubUrl"
+                                            value={formData.githubUrl}
                                             onChange={handleInputChange}
                                             placeholder="https://github.com/username/repository"
                                             required

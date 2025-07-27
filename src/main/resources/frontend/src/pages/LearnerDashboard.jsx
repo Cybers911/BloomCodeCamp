@@ -113,7 +113,7 @@ const LearnerDashboard = () => {
                                 <h1 className="h2 mb-1">My Assignments</h1>
                                 <p className="text-muted mb-0">Manage your assignments and track their status</p>
                             </div>
-                            <button 
+                            <button
                                 className="btn btn-primary btn-lg"
                                 onClick={handleCreateAssignment}
                             >
@@ -144,7 +144,7 @@ const LearnerDashboard = () => {
                                         <i className="bi bi-file-earmark-text display-1 text-muted"></i>
                                         <h4 className="mt-3 text-muted">No assignments yet</h4>
                                         <p className="text-muted">Create your first assignment to get started</p>
-                                        <button 
+                                        <button
                                             className="btn btn-primary"
                                             onClick={handleCreateAssignment}
                                         >
@@ -157,9 +157,8 @@ const LearnerDashboard = () => {
                                         <table className="table table-hover mb-0">
                                             <thead className="table-light">
                                                 <tr>
+                                                    <th className="border-0 px-4 py-3">ID</th>
                                                     <th className="border-0 px-4 py-3">Number</th>
-                                                    <th className="border-0 px-4 py-3">Branch</th>
-                                                    <th className="border-0 px-4 py-3">GitHub Repository</th>
                                                     <th className="border-0 px-4 py-3">Status</th>
                                                     <th className="border-0 px-4 py-3 text-end">Actions</th>
                                                 </tr>
@@ -168,51 +167,24 @@ const LearnerDashboard = () => {
                                                 {assignments.map((assignment) => (
                                                     <tr key={assignment.id}>
                                                         <td className="px-4 py-3">
-                                                            <div className="fw-semibold">#{assignment.number}</div>
+                                                            <div className="fw-semibold">{assignment.id}</div>
                                                         </td>
                                                         <td className="px-4 py-3">
-                                                            <div className="text-muted">
-                                                                <i className="bi bi-git me-1"></i>
-                                                                {assignment.branch || 'N/A'}
-                                                            </div>
-                                                        </td>
-                                                        <td className="px-4 py-3">
-                                                            <div className="text-muted">
-                                                                {assignment.github_url ? (
-                                                                    <a 
-                                                                        href={assignment.github_url} 
-                                                                        target="_blank" 
-                                                                        rel="noopener noreferrer"
-                                                                        className="text-decoration-none"
-                                                                    >
-                                                                        <i className="bi bi-github me-1"></i>
-                                                                        {formatGithubUrl(assignment.github_url)}
-                                                                    </a>
-                                                                ) : (
-                                                                    <span className="text-muted">N/A</span>
-                                                                )}
-                                                            </div>
+                                                            <div className="fw-semibold">{assignment.number}</div>
                                                         </td>
                                                         <td className="px-4 py-3">
                                                             {getStatusBadge(assignment.status)}
                                                         </td>
                                                         <td className="px-4 py-3 text-end">
                                                             <div className="btn-group" role="group">
-                                                                <button 
-                                                                    className="btn btn-outline-primary btn-sm"
-                                                                    onClick={() => handleViewAssignment(assignment.id)}
-                                                                    title="View"
-                                                                >
-                                                                    <i className="bi bi-eye"></i>
-                                                                </button>
-                                                                <button 
+                                                                <button
                                                                     className="btn btn-outline-secondary btn-sm"
                                                                     onClick={() => handleEditAssignment(assignment.id)}
                                                                     title="Edit"
                                                                 >
                                                                     <i className="bi bi-pencil"></i>
                                                                 </button>
-                                                                <button 
+                                                                <button
                                                                     className="btn btn-outline-danger btn-sm"
                                                                     onClick={() => handleDeleteAssignment(assignment.id, assignment.number)}
                                                                     title="Delete"
@@ -234,14 +206,14 @@ const LearnerDashboard = () => {
             </div>
 
             {/* Create Assignment Modal */}
-            <CreateAssignmentModal 
+            <CreateAssignmentModal
                 isOpen={isCreateModalOpen}
                 onClose={handleCreateModalClose}
                 onSuccess={handleAssignmentCreated}
             />
 
             {/* Update Assignment Modal */}
-            <UpdateAssignmentModal 
+            <UpdateAssignmentModal
                 isOpen={isUpdateModalOpen}
                 onClose={handleUpdateModalClose}
                 onSuccess={handleAssignmentUpdated}
@@ -249,7 +221,7 @@ const LearnerDashboard = () => {
             />
 
             {/* Delete Assignment Modal */}
-            <DeleteAssignmentModal 
+            <DeleteAssignmentModal
                 isOpen={isDeleteModalOpen}
                 onClose={handleDeleteModalClose}
                 onSuccess={handleAssignmentDeleted}
