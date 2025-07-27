@@ -1,6 +1,7 @@
 // src/components/pages/ReviewerDashboard.jsx
 import React, { useState, useEffect } from 'react';
 import Navigation from '../components/Navigation';
+import AssignmentDetailsModal from '../components/AssignmentDetailsModal';
 import api from '../services/api';
 
 const ReviewerDashboard = () => {
@@ -232,158 +233,14 @@ const ReviewerDashboard = () => {
             </div>
 
             {/* Assignment Details Modal */}
-            {showModal && selectedAssignment && (
-                <div className="modal fade show" style={{ display: 'block' }} tabIndex="-1">
-                    <div className="modal-dialog modal-lg">
-                        <div className="modal-content">
-                            <div className="modal-header">
-                                <h5 className="modal-title">
-                                    <i className="bi bi-file-text me-2"></i>
-                                    Assignment Details
-                                    {isLoadingDetails && (
-                                        <small className="ms-2 text-muted">
-                                            <i className="bi bi-arrow-clockwise spin"></i> Loading fresh data...
-                                        </small>
-                                    )}
-                                </h5>
-                                <button 
-                                    type="button" 
-                                    className="btn-close" 
-                                    onClick={closeModal}
-                                    aria-label="Close"
-                                ></button>
-                            </div>
-                            <div className="modal-body">
-                                {isLoadingDetails ? (
-                                    <div className="text-center py-4">
-                                        <div className="spinner-border text-primary" role="status">
-                                            <span className="visually-hidden">Loading...</span>
-                                        </div>
-                                        <p className="mt-3 text-muted">Loading assignment details...</p>
-                                    </div>
-                                ) : (
-                                    <>
-                                        <div className="row">
-                                            <div className="col-md-6">
-                                                <h6 className="fw-bold">Basic Information</h6>
-                                                <table className="table table-borderless">
-                                                    <tbody>
-                                                        <tr>
-                                                            <td className="fw-semibold">ID:</td>
-                                                            <td>{selectedAssignment.id}</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td className="fw-semibold">Number:</td>
-                                                            <td>{selectedAssignment.number}</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td className="fw-semibold">Title:</td>
-                                                            <td>{selectedAssignment.title}</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td className="fw-semibold">Status:</td>
-                                                            <td>
-                                                                <span className={`badge ${selectedAssignment.status === 'ready' ? 'bg-primary' : 'bg-warning text-dark'}`}>
-                                                                    {selectedAssignment.status === 'ready' ? 'Ready' : 'Resubmitted'}
-                                                                </span>
-                                                            </td>
-                                                        </tr>
-                                                        {selectedAssignment.createdAt && (
-                                                            <tr>
-                                                                <td className="fw-semibold">Created:</td>
-                                                                <td>{new Date(selectedAssignment.createdAt).toLocaleDateString()}</td>
-                                                            </tr>
-                                                        )}
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                            <div className="col-md-6">
-                                                <h6 className="fw-bold">Description</h6>
-                                                <div className="border rounded p-3 bg-light">
-                                                    <p className="mb-0">
-                                                        {selectedAssignment.description || 'No description available'}
-                                                    </p>
-                                                </div>
-                                                
-                                                {selectedAssignment.requirements && (
-                                                    <>
-                                                        <h6 className="fw-bold mt-3">Requirements</h6>
-                                                        <div className="border rounded p-3 bg-light">
-                                                            <p className="mb-0">
-                                                                {selectedAssignment.requirements}
-                                                            </p>
-                                                        </div>
-                                                    </>
-                                                )}
-                                            </div>
-                                        </div>
-                                        
-                                        {selectedAssignment.submission && (
-                                            <div className="mt-4">
-                                                <h6 className="fw-bold">Submission Details</h6>
-                                                <div className="border rounded p-3 bg-light">
-                                                    <div className="row">
-                                                        <div className="col-md-6">
-                                                            <p className="mb-1"><strong>Submitted by:</strong> {selectedAssignment.submission.submittedBy || 'Unknown'}</p>
-                                                            <p className="mb-1"><strong>Submitted on:</strong> {selectedAssignment.submission.submittedAt ? new Date(selectedAssignment.submission.submittedAt).toLocaleString() : 'Unknown'}</p>
-                                                        </div>
-                                                        <div className="col-md-6">
-                                                            <p className="mb-1"><strong>File:</strong> {selectedAssignment.submission.fileName || 'No file'}</p>
-                                                            {selectedAssignment.submission.comments && (
-                                                                <p className="mb-0"><strong>Comments:</strong> {selectedAssignment.submission.comments}</p>
-                                                            )}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        )}
-                                    </>
-                                )}
-                            </div>
-                            <div className="modal-footer">
-                                <button 
-                                    type="button" 
-                                    className="btn btn-secondary" 
-                                    onClick={closeModal}
-                                >
-                                    Close
-                                </button>
-                                {!isLoadingDetails && (
-                                    <button 
-                                        type="button" 
-                                        className={`btn ${selectedAssignment.status === 'ready' ? 'btn-primary' : 'btn-warning'}`}
-                                        onClick={() => {
-                                            if (selectedAssignment.status === 'ready') {
-                                                claimAssignment(selectedAssignment.id);
-                                            } else {
-                                                reclaimAssignment(selectedAssignment.id);
-                                            }
-                                            closeModal();
-                                        }}
-                                    >
-                                        {selectedAssignment.status === 'ready' ? (
-                                            <>
-                                                <i className="bi bi-hand-index me-1"></i>
-                                                Claim Assignment
-                                            </>
-                                        ) : (
-                                            <>
-                                                <i className="bi bi-arrow-clockwise me-1"></i>
-                                                Reclaim Assignment
-                                            </>
-                                        )}
-                                    </button>
-                                )}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            )}
-
-            {/* Modal Backdrop */}
-            {showModal && (
-                <div className="modal-backdrop fade show"></div>
-            )}
+            <AssignmentDetailsModal
+                showModal={showModal}
+                selectedAssignment={selectedAssignment}
+                isLoadingDetails={isLoadingDetails}
+                onClose={closeModal}
+                onClaim={claimAssignment}
+                onReclaim={reclaimAssignment}
+            />
         </div>
     );
 };
