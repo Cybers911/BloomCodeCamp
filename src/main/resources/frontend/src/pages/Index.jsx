@@ -1,7 +1,7 @@
-// src/pages/PublicPage.jsx
+// src/pages/Index.jsx
 import React from 'react';
 
-const PublicPage = () => {
+const Index = () => {
     const handleLearnerLogin = () => {
         window.location.href = '/login';
     };
@@ -68,4 +68,4 @@ const PublicPage = () => {
     );
 };
 
-export default PublicPage; 
+export default Index; 
