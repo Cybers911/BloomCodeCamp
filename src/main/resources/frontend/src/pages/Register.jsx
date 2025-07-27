@@ -1,20 +1,23 @@
-// src/components/pages/Login.jsx
+// src/pages/Register.jsx
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 
-const Login = () => {
-    const { login } = useAuth();
+const Register = () => {
+    const { register } = useAuth();
     const [credentials, setCredentials] = useState({ username: '', password: '' });
     const [isLoading, setIsLoading] = useState(false);
 
-    const handleLogin = async (e) => {
+    const handleRegister = async (e) => {
         e.preventDefault();
         setIsLoading(true);
         try {
-            const success = await login(credentials);
-            if (success) window.location.href = '/learner-dashboard';
+            const success = await register(credentials);
+            if (success) {
+                // Redirect to login page after successful registration
+                window.location.href = '/login';
+            }
         } catch (error) {
-            console.error('Login failed:', error);
+            console.error('Registration failed:', error);
         } finally {
             setIsLoading(false);
         }
@@ -27,11 +30,11 @@ const Login = () => {
                     <div className="card shadow-lg border-0">
                         <div className="card-body p-5">
                             <div className="text-center mb-4">
-                                <h2 className="text-primary fw-bold mb-2">Welcome Back</h2>
-                                <p className="text-muted">Sign in to your account</p>
+                                <h2 className="text-primary fw-bold mb-2">Create Account</h2>
+                                <p className="text-muted">Sign up for a new account</p>
                             </div>
                             
-                            <form onSubmit={handleLogin}>
+                            <form onSubmit={handleRegister}>
                                 <div className="mb-3">
                                     <label htmlFor="username" className="form-label fw-semibold">
                                         Username
@@ -40,7 +43,7 @@ const Login = () => {
                                         id="username"
                                         type="text"
                                         className="form-control form-control-lg"
-                                        placeholder="Enter your username"
+                                        placeholder="Choose a username"
                                         value={credentials.username}
                                         onChange={(e) => setCredentials({ ...credentials, username: e.target.value })}
                                         required
@@ -55,7 +58,7 @@ const Login = () => {
                                         id="password"
                                         type="password"
                                         className="form-control form-control-lg"
-                                        placeholder="Enter your password"
+                                        placeholder="Choose a password"
                                         value={credentials.password}
                                         onChange={(e) =>
                                             setCredentials({ ...credentials, password: e.target.value })
@@ -72,17 +75,17 @@ const Login = () => {
                                     {isLoading ? (
                                         <>
                                             <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-                                            Signing in...
+                                            Creating account...
                                         </>
                                     ) : (
-                                        'Sign In'
+                                        'Create Account'
                                     )}
                                 </button>
                             </form>
                             
                             <div className="text-center mt-4">
                                 <small className="text-muted">
-                                    Don't have an account? <a href="/register" className="text-decoration-none">Sign up</a>
+                                    Already have an account? <a href="/login" className="text-decoration-none">Sign in</a>
                                 </small>
                             </div>
                         </div>
@@ -93,4 +96,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default Register; 

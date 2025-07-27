@@ -20,31 +20,32 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
+    const register = async (credentials) => {
+        try {
+            const response = await api.post('/api/auth/register', credentials);
+            return true;
+        } catch (error) {
+            console.error(error);
+            return false;
+        }
+    };
+
     const logout = () => {
         localStorage.removeItem('token');
         setUser(null);
     };
 
     return (
-        <AuthContext.Provider value={{ user, login, logout }}>
+        <AuthContext.Provider value={{ user, login, register, logout }}>
             {children}
         </AuthContext.Provider>
     );
 };
 
 export const useAuth = () => {
-    return {
-        login: async (credentials) => {
-            try {
-                const response = await api.post('/auth/login', credentials);
-                const token = response.data.token;
-                localStorage.setItem('token', token);
-                // You can't set user state here unless you use a global state or context!
-                return true;
-            } catch (error) {
-                console.error(error);
-                return false;
-            }
-        },
-    };
+    const context = useContext(AuthContext);
+    if (context === undefined) {
+        throw new Error('useAuth must be used within an AuthProvider');
+    }
+    return context;
 };
