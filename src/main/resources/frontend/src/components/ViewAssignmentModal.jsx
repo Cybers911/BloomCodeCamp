@@ -59,10 +59,6 @@ const ViewAssignmentModal = ({
                                                         <td>{selectedAssignment.number}</td>
                                                     </tr>
                                                     <tr>
-                                                        <td className="fw-semibold">Title:</td>
-                                                        <td>{selectedAssignment.title}</td>
-                                                    </tr>
-                                                    <tr>
                                                         <td className="fw-semibold">Status:</td>
                                                         <td>
                                                             <span className={`badge ${
