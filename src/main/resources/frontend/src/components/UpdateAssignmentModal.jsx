@@ -132,27 +132,6 @@ const UpdateAssignmentModal = ({ isOpen, onClose, onSuccess, assignmentId }) => 
                                     </div>
                                     
                                     <div className="mb-3">
-                                        <label htmlFor="branch" className="form-label fw-semibold">
-                                            Git Branch <span className="text-danger">*</span>
-                                        </label>
-                                        <input
-                                            type="text"
-                                            className="form-control form-control-lg"
-                                            id="branch"
-                                            name="branch"
-                                            value={formData.branch}
-                                            onChange={handleInputChange}
-                                            placeholder="e.g., main, develop, feature/assignment-1"
-                                            required
-                                            disabled={isLoading}
-                                        />
-                                        <div className="form-text">
-                                            <i className="bi bi-git me-1"></i>
-                                            Enter the branch name where your assignment code is located
-                                        </div>
-                                    </div>
-                                    
-                                    <div className="mb-3">
                                         <label htmlFor="githubUrl" className="form-label fw-semibold">
                                             GitHub Repository URL <span className="text-danger">*</span>
                                         </label>
@@ -170,6 +149,27 @@ const UpdateAssignmentModal = ({ isOpen, onClose, onSuccess, assignmentId }) => 
                                         <div className="form-text">
                                             <i className="bi bi-github me-1"></i>
                                             Enter the full URL to your GitHub repository
+                                        </div>
+                                    </div>
+                                    
+                                    <div className="mb-3">
+                                        <label htmlFor="branch" className="form-label fw-semibold">
+                                            Git Branch <span className="text-danger">*</span>
+                                        </label>
+                                        <input
+                                            type="text"
+                                            className="form-control form-control-lg"
+                                            id="branch"
+                                            name="branch"
+                                            value={formData.branch}
+                                            onChange={handleInputChange}
+                                            placeholder="e.g., main, develop, feature/assignment-1"
+                                            required
+                                            disabled={isLoading}
+                                        />
+                                        <div className="form-text">
+                                            <i className="bi bi-git me-1"></i>
+                                            Enter the branch name where your assignment code is located
                                         </div>
                                     </div>
                                     
