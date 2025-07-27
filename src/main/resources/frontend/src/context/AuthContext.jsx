@@ -9,7 +9,7 @@ export const AuthProvider = ({ children }) => {
 
     const login = async (credentials) => {
         try {
-            const response = await api.post('/api/auth/login', credentials);
+            const response = await api.post('/auth/login', credentials);
             
             // Check if response is JSON (success case)
             if (response.headers['content-type']?.includes('application/json')) {
@@ -35,7 +35,7 @@ export const AuthProvider = ({ children }) => {
 
     const register = async (credentials) => {
         try {
-            const response = await api.post('/api/auth/register', credentials);
+            const response = await api.post('/auth/register', credentials);
             
             // Register always returns a string (success or error)
             if (typeof response.data === 'string') {
