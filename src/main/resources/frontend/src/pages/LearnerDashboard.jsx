@@ -1,6 +1,5 @@
 // src/components/pages/LearnerDashboard.jsx
 import React, { useState, useEffect } from 'react';
-import { useAuth } from '../context/AuthContext';
 import Navigation from '../components/Navigation';
 import CreateAssignmentModal from '../components/CreateAssignmentModal';
 import UpdateAssignmentModal from '../components/UpdateAssignmentModal';
@@ -8,7 +7,6 @@ import DeleteAssignmentModal from '../components/DeleteAssignmentModal';
 import api from '../services/api';
 
 const LearnerDashboard = () => {
-    const { user } = useAuth();
     const [assignments, setAssignments] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState('');
@@ -77,10 +75,6 @@ const LearnerDashboard = () => {
         fetchAssignments(); // Refresh the assignments list
     };
 
-    const handleViewAssignment = (id) => {
-        window.location.href = `/view-assignment/${id}`;
-    };
-
     const getStatusBadge = (status) => {
         const statusClasses = {
             'pending': 'badge bg-warning',
@@ -89,13 +83,6 @@ const LearnerDashboard = () => {
             'rejected': 'badge bg-danger'
         };
         return <span className={statusClasses[status] || 'badge bg-secondary'}>{status}</span>;
-    };
-
-    const formatGithubUrl = (url) => {
-        if (!url) return 'N/A';
-        // Extract repository name from GitHub URL
-        const match = url.match(/github\.com\/([^\/]+\/[^\/]+)/);
-        return match ? match[1] : url;
     };
 
     return (

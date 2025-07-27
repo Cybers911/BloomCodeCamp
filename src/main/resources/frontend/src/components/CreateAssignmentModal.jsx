@@ -6,7 +6,8 @@ const CreateAssignmentModal = ({ isOpen, onClose, onSuccess }) => {
     const [formData, setFormData] = useState({
         number: '',
         branch: '',
-        githubUrl: ''
+        githubUrl: '',
+        status: 'submitted'
     });
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
@@ -43,7 +44,7 @@ const CreateAssignmentModal = ({ isOpen, onClose, onSuccess }) => {
     };
 
     const handleClose = () => {
-        setFormData({ number: '', branch: '', githubUrl: '' });
+        setFormData({ number: '', branch: '', githubUrl: '', status: '' });
         setError('');
         setIsLoading(false);
         onClose();
