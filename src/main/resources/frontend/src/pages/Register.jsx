@@ -35,12 +35,12 @@ const Register = () => {
     return (
         <div className="container-fluid vh-100 d-flex align-items-center justify-content-center bg-light">
             <div className="row w-100 justify-content-center">
-                <div className="col-12 col-sm-8 col-md-6 col-lg-4 col-xl-3">
+                <div className="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5">
                     <div className="card shadow-lg border-0">
                         <div className="card-body p-5">
-                            <div className="text-center mb-4">
-                                <h2 className="text-primary fw-bold mb-2">Create Account</h2>
-                                <p className="text-muted">Sign up for a new account</p>
+                            <div className="text-center mb-5">
+                                <h2 className="text-primary fw-bold mb-3">Create Account</h2>
+                                <p className="text-muted fs-5">Sign up for a new account</p>
                             </div>
                             
                             {error && (
@@ -56,14 +56,14 @@ const Register = () => {
                             )}
                             
                             <form onSubmit={handleRegister}>
-                                <div className="mb-3">
-                                    <label htmlFor="username" className="form-label fw-semibold">
+                                <div className="mb-4">
+                                    <label htmlFor="username" className="form-label fw-semibold fs-5">
                                         Username
                                     </label>
                                     <input
                                         id="username"
                                         type="text"
-                                        className="form-control form-control-lg"
+                                        className="form-control form-control-lg py-3"
                                         placeholder="Choose a username"
                                         value={credentials.username}
                                         onChange={(e) => setCredentials({ ...credentials, username: e.target.value })}
@@ -71,14 +71,14 @@ const Register = () => {
                                     />
                                 </div>
                                 
-                                <div className="mb-4">
-                                    <label htmlFor="password" className="form-label fw-semibold">
+                                <div className="mb-5">
+                                    <label htmlFor="password" className="form-label fw-semibold fs-5">
                                         Password
                                     </label>
                                     <input
                                         id="password"
                                         type="password"
-                                        className="form-control form-control-lg"
+                                        className="form-control form-control-lg py-3"
                                         placeholder="Choose a password"
                                         value={credentials.password}
                                         onChange={(e) =>
@@ -90,7 +90,7 @@ const Register = () => {
                                 
                                 <button 
                                     type="submit" 
-                                    className="btn btn-primary btn-lg w-100"
+                                    className="btn btn-primary btn-lg w-100 py-3"
                                     disabled={isLoading}
                                 >
                                     {isLoading ? (
@@ -104,8 +104,8 @@ const Register = () => {
                                 </button>
                             </form>
                             
-                            <div className="text-center mt-4">
-                                <small className="text-muted">
+                            <div className="text-center mt-5">
+                                <small className="text-muted fs-6">
                                     Already have an account? <a href="/login" className="text-decoration-none">Sign in</a>
                                 </small>
                             </div>

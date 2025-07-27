@@ -30,12 +30,12 @@ const Login = () => {
     return (
         <div className="container-fluid vh-100 d-flex align-items-center justify-content-center bg-light">
             <div className="row w-100 justify-content-center">
-                <div className="col-12 col-sm-8 col-md-6 col-lg-4 col-xl-3">
+                <div className="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5">
                     <div className="card shadow-lg border-0">
                         <div className="card-body p-5">
-                            <div className="text-center mb-4">
-                                <h2 className="text-primary fw-bold mb-2">Welcome Back</h2>
-                                <p className="text-muted">Sign in to your account</p>
+                            <div className="text-center mb-5">
+                                <h2 className="text-primary fw-bold mb-3">Welcome Back</h2>
+                                <p className="text-muted fs-5">Sign in to your account</p>
                             </div>
                             
                             {error && (
@@ -45,14 +45,14 @@ const Login = () => {
                             )}
                             
                             <form onSubmit={handleLogin}>
-                                <div className="mb-3">
-                                    <label htmlFor="username" className="form-label fw-semibold">
+                                <div className="mb-4">
+                                    <label htmlFor="username" className="form-label fw-semibold fs-5">
                                         Username
                                     </label>
                                     <input
                                         id="username"
                                         type="text"
-                                        className="form-control form-control-lg"
+                                        className="form-control form-control-lg py-3"
                                         placeholder="Enter your username"
                                         value={credentials.username}
                                         onChange={(e) => setCredentials({ ...credentials, username: e.target.value })}
@@ -60,14 +60,14 @@ const Login = () => {
                                     />
                                 </div>
                                 
-                                <div className="mb-4">
-                                    <label htmlFor="password" className="form-label fw-semibold">
+                                <div className="mb-5">
+                                    <label htmlFor="password" className="form-label fw-semibold fs-5">
                                         Password
                                     </label>
                                     <input
                                         id="password"
                                         type="password"
-                                        className="form-control form-control-lg"
+                                        className="form-control form-control-lg py-3"
                                         placeholder="Enter your password"
                                         value={credentials.password}
                                         onChange={(e) =>
@@ -79,7 +79,7 @@ const Login = () => {
                                 
                                 <button 
                                     type="submit" 
-                                    className="btn btn-primary btn-lg w-100"
+                                    className="btn btn-primary btn-lg w-100 py-3"
                                     disabled={isLoading}
                                 >
                                     {isLoading ? (
@@ -93,8 +93,8 @@ const Login = () => {
                                 </button>
                             </form>
                             
-                            <div className="text-center mt-4">
-                                <small className="text-muted">
+                            <div className="text-center mt-5">
+                                <small className="text-muted fs-6">
                                     Don't have an account? <a href="/register" className="text-decoration-none">Sign up</a>
                                 </small>
                             </div>
