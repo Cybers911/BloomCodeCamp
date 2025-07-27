@@ -8,6 +8,8 @@ const ReviewerDashboard = () => {
     const [resubmittedAssignments, setResubmittedAssignments] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState('');
+    const [selectedAssignment, setSelectedAssignment] = useState(null);
+    const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
         fetchAssignments();
@@ -48,6 +50,16 @@ const ReviewerDashboard = () => {
             console.error('Error reclaiming assignment:', error);
             alert('Failed to reclaim assignment');
         }
+    };
+
+    const handleViewDetails = (assignment) => {
+        setSelectedAssignment(assignment);
+        setShowModal(true);
+    };
+
+    const closeModal = () => {
+        setShowModal(false);
+        setSelectedAssignment(null);
     };
 
     return (
@@ -104,12 +116,12 @@ const ReviewerDashboard = () => {
                                                                 <th>ID</th>
                                                                 <th>Number</th>
                                                                 <th>Status</th>
-                                                                <th>Action</th>
+                                                                <th>Actions</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
                                                             {readyAssignments.map((assignment) => (
-                                                                <tr key={assignment.id}>
+                                                                <tr key={assignment.id} style={{ cursor: 'pointer' }} onClick={() => handleViewDetails(assignment)}>
                                                                     <td>{assignment.id}</td>
                                                                     <td>{assignment.number}</td>
                                                                     <td>
@@ -118,7 +130,10 @@ const ReviewerDashboard = () => {
                                                                     <td>
                                                                         <button 
                                                                             className="btn btn-primary btn-sm"
-                                                                            onClick={() => claimAssignment(assignment.id)}
+                                                                            onClick={(e) => {
+                                                                                e.stopPropagation();
+                                                                                claimAssignment(assignment.id);
+                                                                            }}
                                                                         >
                                                                             <i className="bi bi-hand-index me-1"></i>
                                                                             Claim
@@ -157,12 +172,12 @@ const ReviewerDashboard = () => {
                                                                 <th>ID</th>
                                                                 <th>Number</th>
                                                                 <th>Status</th>
-                                                                <th>Action</th>
+                                                                <th>Actions</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
                                                             {resubmittedAssignments.map((assignment) => (
-                                                                <tr key={assignment.id}>
+                                                                <tr key={assignment.id} style={{ cursor: 'pointer' }} onClick={() => handleViewDetails(assignment)}>
                                                                     <td>{assignment.id}</td>
                                                                     <td>{assignment.number}</td>
                                                                     <td>
@@ -171,7 +186,10 @@ const ReviewerDashboard = () => {
                                                                     <td>
                                                                         <button 
                                                                             className="btn btn-warning btn-sm"
-                                                                            onClick={() => reclaimAssignment(assignment.id)}
+                                                                            onClick={(e) => {
+                                                                                e.stopPropagation();
+                                                                                reclaimAssignment(assignment.id);
+                                                                            }}
                                                                         >
                                                                             <i className="bi bi-arrow-clockwise me-1"></i>
                                                                             Reclaim
@@ -191,6 +209,142 @@ const ReviewerDashboard = () => {
                     </div>
                 </div>
             </div>
+
+            {/* Assignment Details Modal */}
+            {showModal && selectedAssignment && (
+                <div className="modal fade show" style={{ display: 'block' }} tabIndex="-1">
+                    <div className="modal-dialog modal-lg">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h5 className="modal-title">
+                                    <i className="bi bi-file-text me-2"></i>
+                                    Assignment Details
+                                </h5>
+                                <button 
+                                    type="button" 
+                                    className="btn-close" 
+                                    onClick={closeModal}
+                                    aria-label="Close"
+                                ></button>
+                            </div>
+                            <div className="modal-body">
+                                <div className="row">
+                                    <div className="col-md-6">
+                                        <h6 className="fw-bold">Basic Information</h6>
+                                        <table className="table table-borderless">
+                                            <tbody>
+                                                <tr>
+                                                    <td className="fw-semibold">ID:</td>
+                                                    <td>{selectedAssignment.id}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td className="fw-semibold">Number:</td>
+                                                    <td>{selectedAssignment.number}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td className="fw-semibold">Title:</td>
+                                                    <td>{selectedAssignment.title}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td className="fw-semibold">Status:</td>
+                                                    <td>
+                                                        <span className={`badge ${selectedAssignment.status === 'ready' ? 'bg-primary' : 'bg-warning text-dark'}`}>
+                                                            {selectedAssignment.status === 'ready' ? 'Ready' : 'Resubmitted'}
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                                {selectedAssignment.createdAt && (
+                                                    <tr>
+                                                        <td className="fw-semibold">Created:</td>
+                                                        <td>{new Date(selectedAssignment.createdAt).toLocaleDateString()}</td>
+                                                    </tr>
+                                                )}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div className="col-md-6">
+                                        <h6 className="fw-bold">Description</h6>
+                                        <div className="border rounded p-3 bg-light">
+                                            <p className="mb-0">
+                                                {selectedAssignment.description || 'No description available'}
+                                            </p>
+                                        </div>
+                                        
+                                        {selectedAssignment.requirements && (
+                                            <>
+                                                <h6 className="fw-bold mt-3">Requirements</h6>
+                                                <div className="border rounded p-3 bg-light">
+                                                    <p className="mb-0">
+                                                        {selectedAssignment.requirements}
+                                                    </p>
+                                                </div>
+                                            </>
+                                        )}
+                                    </div>
+                                </div>
+                                
+                                {selectedAssignment.submission && (
+                                    <div className="mt-4">
+                                        <h6 className="fw-bold">Submission Details</h6>
+                                        <div className="border rounded p-3 bg-light">
+                                            <div className="row">
+                                                <div className="col-md-6">
+                                                    <p className="mb-1"><strong>Submitted by:</strong> {selectedAssignment.submission.submittedBy || 'Unknown'}</p>
+                                                    <p className="mb-1"><strong>Submitted on:</strong> {selectedAssignment.submission.submittedAt ? new Date(selectedAssignment.submission.submittedAt).toLocaleString() : 'Unknown'}</p>
+                                                </div>
+                                                <div className="col-md-6">
+                                                    <p className="mb-1"><strong>File:</strong> {selectedAssignment.submission.fileName || 'No file'}</p>
+                                                    {selectedAssignment.submission.comments && (
+                                                        <p className="mb-0"><strong>Comments:</strong> {selectedAssignment.submission.comments}</p>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                            <div className="modal-footer">
+                                <button 
+                                    type="button" 
+                                    className="btn btn-secondary" 
+                                    onClick={closeModal}
+                                >
+                                    Close
+                                </button>
+                                <button 
+                                    type="button" 
+                                    className={`btn ${selectedAssignment.status === 'ready' ? 'btn-primary' : 'btn-warning'}`}
+                                    onClick={() => {
+                                        if (selectedAssignment.status === 'ready') {
+                                            claimAssignment(selectedAssignment.id);
+                                        } else {
+                                            reclaimAssignment(selectedAssignment.id);
+                                        }
+                                        closeModal();
+                                    }}
+                                >
+                                    {selectedAssignment.status === 'ready' ? (
+                                        <>
+                                            <i className="bi bi-hand-index me-1"></i>
+                                            Claim Assignment
+                                        </>
+                                    ) : (
+                                        <>
+                                            <i className="bi bi-arrow-clockwise me-1"></i>
+                                            Reclaim Assignment
+                                        </>
+                                    )}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Modal Backdrop */}
+            {showModal && (
+                <div className="modal-backdrop fade show"></div>
+            )}
         </div>
     );
 };
