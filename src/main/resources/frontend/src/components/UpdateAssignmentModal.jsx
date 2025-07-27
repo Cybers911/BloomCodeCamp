@@ -6,7 +6,8 @@ const UpdateAssignmentModal = ({ isOpen, onClose, onSuccess, assignmentId }) => 
     const [formData, setFormData] = useState({
         number: '',
         branch: '',
-        githubUrl: ''
+        githubUrl: '',
+        status: 'READY'
     });
     const [isLoading, setIsLoading] = useState(false);
     const [isFetching, setIsFetching] = useState(false);
@@ -27,7 +28,8 @@ const UpdateAssignmentModal = ({ isOpen, onClose, onSuccess, assignmentId }) => 
             setFormData({
                 number: assignment.number || '',
                 branch: assignment.branch || '',
-                githubUrl: assignment.githubUrl || ''
+                githubUrl: assignment.githubUrl || '',
+                status: assignment.status || 'READY'
             });
         } catch (error) {
             console.error('Error fetching assignment:', error);
@@ -69,7 +71,7 @@ const UpdateAssignmentModal = ({ isOpen, onClose, onSuccess, assignmentId }) => 
     };
 
     const handleClose = () => {
-        setFormData({ number: '', branch: '', githubUrl: '' });
+        setFormData({ number: '', branch: '', githubUrl: '', status: 'READY' });
         setError('');
         setIsLoading(false);
         setIsFetching(false);
@@ -130,6 +132,27 @@ const UpdateAssignmentModal = ({ isOpen, onClose, onSuccess, assignmentId }) => 
                                     </div>
                                     
                                     <div className="mb-3">
+                                        <label htmlFor="branch" className="form-label fw-semibold">
+                                            Git Branch <span className="text-danger">*</span>
+                                        </label>
+                                        <input
+                                            type="text"
+                                            className="form-control form-control-lg"
+                                            id="branch"
+                                            name="branch"
+                                            value={formData.branch}
+                                            onChange={handleInputChange}
+                                            placeholder="e.g., main, develop, feature/assignment-1"
+                                            required
+                                            disabled={isLoading}
+                                        />
+                                        <div className="form-text">
+                                            <i className="bi bi-git me-1"></i>
+                                            Enter the branch name where your assignment code is located
+                                        </div>
+                                    </div>
+                                    
+                                    <div className="mb-3">
                                         <label htmlFor="githubUrl" className="form-label fw-semibold">
                                             GitHub Repository URL <span className="text-danger">*</span>
                                         </label>
@@ -151,23 +174,25 @@ const UpdateAssignmentModal = ({ isOpen, onClose, onSuccess, assignmentId }) => 
                                     </div>
                                     
                                     <div className="mb-3">
-                                        <label htmlFor="branch" className="form-label fw-semibold">
-                                            Git Branch <span className="text-danger">*</span>
+                                        <label htmlFor="status" className="form-label fw-semibold">
+                                            Status <span className="text-danger">*</span>
                                         </label>
-                                        <input
-                                            type="text"
-                                            className="form-control form-control-lg"
-                                            id="branch"
-                                            name="branch"
-                                            value={formData.branch}
+                                        <select
+                                            className="form-select form-select-lg"
+                                            id="status"
+                                            name="status"
+                                            value={formData.status}
                                             onChange={handleInputChange}
-                                            placeholder="e.g., main, develop, feature/assignment-1"
                                             required
                                             disabled={isLoading}
-                                        />
+                                        >
+                                            <option value="READY">Ready</option>
+                                            <option value="RESUBMITTED">Resubmitted</option>
+                                            <option value="CLAIMED">Claimed</option>
+                                        </select>
                                         <div className="form-text">
-                                            <i className="bi bi-git me-1"></i>
-                                            Enter the branch name where your assignment code is located
+                                            <i className="bi bi-info-circle me-1"></i>
+                                            Select the current status of your assignment
                                         </div>
                                     </div>
                                 </>
