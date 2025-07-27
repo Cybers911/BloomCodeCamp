@@ -10,10 +10,19 @@ const Navigation = ({ title = "Assignment Review App" }) => {
         window.location.href = '/';
     };
 
+    const handleAppNameClick = () => {
+        window.location.href = '/dashboard';
+    };
+
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
             <div className="container-fluid">
-                <div className="navbar-brand fw-bold fs-4">
+                <div 
+                    className="navbar-brand fw-bold fs-4" 
+                    style={{ cursor: 'pointer' }}
+                    onClick={handleAppNameClick}
+                    title="Go to Dashboard"
+                >
                     {title}
                 </div>
                 
