@@ -6,6 +6,29 @@ const AuthContext = createContext(undefined, undefined);
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
+
+    // Check for existing token on app load
+    useEffect(() => {
+        const checkAuthStatus = async () => {
+            const token = localStorage.getItem('token');
+            if (token) {
+                try {
+                    // Verify token with backend or decode it to get user info
+                    // For now, we'll set a basic user object
+                    // You might want to make an API call to verify the token
+                    setUser({ username: 'User' }); // You can enhance this with actual user data
+                } catch (error) {
+                    console.error('Token verification failed:', error);
+                    localStorage.removeItem('token');
+                    setUser(null);
+                }
+            }
+            setIsLoading(false);
+        };
+
+        checkAuthStatus();
+    }, []);
 
     const login = async (credentials) => {
         try {
@@ -65,8 +88,12 @@ export const AuthProvider = ({ children }) => {
         setUser(null);
     };
 
+    const isAuthenticated = () => {
+        return user !== null;
+    };
+
     return (
-        <AuthContext.Provider value={{ user, login, register, logout }}>
+        <AuthContext.Provider value={{ user, login, register, logout, isAuthenticated, isLoading }}>
             {children}
         </AuthContext.Provider>
     );

@@ -2,9 +2,11 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './guards/ProtectedRoute';
+import PublicRoute from './guards/PublicRoute';
 import Index from './pages/Index';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import Dashboard from './pages/Dashboard';
 import LearnerDashboard from './pages/LearnerDashboard';
 import ReviewerDashboard from './pages/ReviewerDashboard';
 
@@ -12,12 +14,29 @@ const App = () => (
   <AuthProvider>
     <Router>
       <Switch>
-        {/* Public routes - accessible without authentication */}
-        <Route path="/" component={Index} exact />
-        <Route path="/login" component={Login} />
-        <Route path="/register" component={Register} />
+        {/* Public routes - redirect authenticated users to dashboard */}
+        <Route path="/" exact>
+          <PublicRoute>
+            <Index />
+          </PublicRoute>
+        </Route>
+        <Route path="/login">
+          <PublicRoute>
+            <Login />
+          </PublicRoute>
+        </Route>
+        <Route path="/register">
+          <PublicRoute>
+            <Register />
+          </PublicRoute>
+        </Route>
         
         {/* Protected routes - require authentication */}
+        <Route path="/dashboard">
+          <ProtectedRoute>
+            <Dashboard />
+          </ProtectedRoute>
+        </Route>
         <Route path="/learner-dashboard">
           <ProtectedRoute>
             <LearnerDashboard />

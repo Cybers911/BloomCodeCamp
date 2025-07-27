@@ -1,9 +1,9 @@
-// src/guards/ProtectedRoute.jsx
+// src/guards/PublicRoute.jsx
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
-const ProtectedRoute = ({ children }) => {
+const PublicRoute = ({ children }) => {
     const { user, isLoading } = useAuth();
 
     // Show loading spinner while checking authentication
@@ -20,14 +20,13 @@ const ProtectedRoute = ({ children }) => {
         );
     }
 
-    // Check if user is authenticated
-    if (!user) {
-        // Redirect to login page using React Router
-        return <Redirect to="/login" />;
+    // If user is authenticated, redirect to dashboard
+    if (user) {
+        return <Redirect to="/dashboard" />;
     }
 
-    // If authenticated, render the protected content
+    // If not authenticated, render the public content
     return children;
 };
 
-export default ProtectedRoute; 
+export default PublicRoute; 
