@@ -1,7 +1,7 @@
 // src/components/pages/ReviewerDashboard.jsx
 import React, { useState, useEffect } from 'react';
 import Navigation from '../components/Navigation';
-import AssignmentDetailsModal from '../components/AssignmentDetailsModal';
+import ViewAssignmentModal from '../components/ViewAssignmentModal';
 import api from '../services/api';
 
 const ReviewerDashboard = () => {
@@ -233,7 +233,7 @@ const ReviewerDashboard = () => {
             </div>
 
             {/* Assignment Details Modal */}
-            <AssignmentDetailsModal
+            <ViewAssignmentModal
                 showModal={showModal}
                 selectedAssignment={selectedAssignment}
                 isLoadingDetails={isLoadingDetails}
