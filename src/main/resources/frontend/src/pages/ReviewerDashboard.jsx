@@ -97,25 +97,37 @@ const ReviewerDashboard = () => {
                                                     <p className="mt-3 text-muted">No assignments ready for review</p>
                                                 </div>
                                             ) : (
-                                                <div className="list-group list-group-flush">
-                                                    {readyAssignments.map((assignment) => (
-                                                        <div key={assignment.id} className="list-group-item d-flex justify-content-between align-items-center">
-                                                            <div>
-                                                                <h6 className="mb-1">{assignment.title}</h6>
-                                                                <small className="text-muted">
-                                                                    {assignment.description?.substring(0, 50)}
-                                                                    {assignment.description?.length > 50 && '...'}
-                                                                </small>
-                                                            </div>
-                                                            <button 
-                                                                className="btn btn-primary btn-sm"
-                                                                onClick={() => claimAssignment(assignment.id)}
-                                                            >
-                                                                <i className="bi bi-hand-index me-1"></i>
-                                                                Claim
-                                                            </button>
-                                                        </div>
-                                                    ))}
+                                                <div className="table-responsive">
+                                                    <table className="table table-hover">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>ID</th>
+                                                                <th>Number</th>
+                                                                <th>Status</th>
+                                                                <th>Action</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            {readyAssignments.map((assignment) => (
+                                                                <tr key={assignment.id}>
+                                                                    <td>{assignment.id}</td>
+                                                                    <td>{assignment.number}</td>
+                                                                    <td>
+                                                                        <span className="badge bg-primary">Ready</span>
+                                                                    </td>
+                                                                    <td>
+                                                                        <button 
+                                                                            className="btn btn-primary btn-sm"
+                                                                            onClick={() => claimAssignment(assignment.id)}
+                                                                        >
+                                                                            <i className="bi bi-hand-index me-1"></i>
+                                                                            Claim
+                                                                        </button>
+                                                                    </td>
+                                                                </tr>
+                                                            ))}
+                                                        </tbody>
+                                                    </table>
                                                 </div>
                                             )}
                                         </div>
@@ -138,25 +150,37 @@ const ReviewerDashboard = () => {
                                                     <p className="mt-3 text-muted">No resubmitted assignments</p>
                                                 </div>
                                             ) : (
-                                                <div className="list-group list-group-flush">
-                                                    {resubmittedAssignments.map((assignment) => (
-                                                        <div key={assignment.id} className="list-group-item d-flex justify-content-between align-items-center">
-                                                            <div>
-                                                                <h6 className="mb-1">{assignment.title}</h6>
-                                                                <small className="text-muted">
-                                                                    {assignment.description?.substring(0, 50)}
-                                                                    {assignment.description?.length > 50 && '...'}
-                                                                </small>
-                                                            </div>
-                                                            <button 
-                                                                className="btn btn-warning btn-sm"
-                                                                onClick={() => reclaimAssignment(assignment.id)}
-                                                            >
-                                                                <i className="bi bi-arrow-clockwise me-1"></i>
-                                                                Reclaim
-                                                            </button>
-                                                        </div>
-                                                    ))}
+                                                <div className="table-responsive">
+                                                    <table className="table table-hover">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>ID</th>
+                                                                <th>Number</th>
+                                                                <th>Status</th>
+                                                                <th>Action</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            {resubmittedAssignments.map((assignment) => (
+                                                                <tr key={assignment.id}>
+                                                                    <td>{assignment.id}</td>
+                                                                    <td>{assignment.number}</td>
+                                                                    <td>
+                                                                        <span className="badge bg-warning text-dark">Resubmitted</span>
+                                                                    </td>
+                                                                    <td>
+                                                                        <button 
+                                                                            className="btn btn-warning btn-sm"
+                                                                            onClick={() => reclaimAssignment(assignment.id)}
+                                                                        >
+                                                                            <i className="bi bi-arrow-clockwise me-1"></i>
+                                                                            Reclaim
+                                                                        </button>
+                                                                    </td>
+                                                                </tr>
+                                                            ))}
+                                                        </tbody>
+                                                    </table>
                                                 </div>
                                             )}
                                         </div>
