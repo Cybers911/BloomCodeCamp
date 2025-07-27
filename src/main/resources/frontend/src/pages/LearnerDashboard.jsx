@@ -169,21 +169,7 @@ const LearnerDashboard = () => {
                                                             <div className="fw-semibold">{assignment.id}</div>
                                                         </td>
                                                         <td className="px-4 py-3">
-                                                            <div className="text-muted">
-                                                                {assignment.github_url ? (
-                                                                    <a 
-                                                                        href={assignment.github_url} 
-                                                                        target="_blank" 
-                                                                        rel="noopener noreferrer"
-                                                                        className="text-decoration-none"
-                                                                    >
-                                                                        <i className="bi bi-github me-1"></i>
-                                                                        {formatGithubUrl(assignment.github_url)}
-                                                                    </a>
-                                                                ) : (
-                                                                    <span className="text-muted">N/A</span>
-                                                                )}
-                                                            </div>
+                                                            <div className="fw-semibold">{assignment.number}</div>
                                                         </td>
                                                         <td className="px-4 py-3">
                                                             {getStatusBadge(assignment.status)}
